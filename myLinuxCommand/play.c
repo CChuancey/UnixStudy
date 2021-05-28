@@ -30,6 +30,7 @@ int main(int argc,char** argv) {
                 break;
             case 'n':
                 puts("Game Over!");
+                exit(EXIT_SUCCESS);
                 break;
             default:
                 puts("Instruction error!");
