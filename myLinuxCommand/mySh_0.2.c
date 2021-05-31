@@ -2,14 +2,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define MAX_ARGC 1024
 #define MAX_ARGLEN 1024 
+#define exitErr(func) {perror(func);exit(EXIT_FAILURE);}
 
 int execute(char* argvs[]) {
-    execvp(argvs[1],argvs+1);
-    perror("execvp()");
-    exit(1);
+    pid_t pid=fork();
+    if(pid==0){
+        execvp(argvs[1],argvs+1);
+        exitErr("fork()");
+    }else if(pid==-1){ //考虑fork失败的情况
+        exitErr("fork()");
+    }else{
+        wait(NULL); //先让子进程结束，以免下一条提示符位置错乱
+        for(int i=0;argvs[i]!=NULL;i++) free(argvs[i]);//malloc的内存free掉
+    }
 }
 
 char* makeString(char arg[]) {
@@ -36,7 +46,6 @@ int main()
             argvs[countArgc]=NULL;
             execute(argvs);
             countArgc=1;
-            //没办法把malloc的内存free掉
         }
     }
     return 0;
