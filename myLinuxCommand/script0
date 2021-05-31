@@ -1,0 +1,16 @@
+#! /bin/sh
+
+SERVICES=$HOME/UnixStudy/test/services
+
+echo find what service in services
+read SER
+
+if grep $SER $SERVICES > /tmp/tmp.ser
+then
+    echo Entries for SER
+    cat /tmp/tmp.ser
+else 
+    echo No entries for $SER
+fi
+
+rm /tmp/tmp.ser
