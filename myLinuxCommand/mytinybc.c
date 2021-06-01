@@ -23,14 +23,17 @@ void childFunc(int in[2],int out[2]){
             puts("Syntax error!");
             continue;
         }
-        printf("\n%d %s %d\n",num1,op,num2);
-        if(fprintf(fout,"%d\n%d\%c\np\n",num1,num2,*op)<0){ //转换为逆波兰表达式
+        if(fprintf(fout,"%d\n%d\n%c\np\n",num1,num2,*op)<0){ //转换为逆波兰表达式
             fprintf(stderr,"Error fprintf()\n");
             exit(1);
         }
         fflush(fout);
-        if(fgets(buffer,BUFFR_SIZE,fin)==NULL) break;
-        printf("%d %s %d = %s",num1,op,num2,buffer);
+        printf("%d %c %d=\n",num1,*op,num2);
+        while(fgets(buffer,BUFFR_SIZE,fin)!=NULL)//阻塞读入跳不出循环！
+            printf("%s",buffer);
+        //fflush(stdout);
+        //if(fgets(buffer,BUFFR_SIZE,fin)==NULL) break;
+        //printf("%d %s %d = %s",num1,op,num2,buffer);
     }
     fclose(fin);
     fclose(fout);
