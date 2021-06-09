@@ -35,9 +35,9 @@ int connect_to_server(char* host,int portnum) {
     inet_aton(host,&serSockAddr.sin_addr);
     serSockAddr.sin_family = AF_INET;
     serSockAddr.sin_port = htons(portnum);
-    if(connect(sockfd,(struct sockaddr*)&serSockAddr,sizeof(serSockAddr))==-1)
-        return -1;
-    else return sockfd;
+    if(connect(sockfd,(struct sockaddr*)&serSockAddr,sizeof(serSockAddr))==0)
+        return sockfd;
+    return -1;
 }
 
 
